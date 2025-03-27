@@ -23,8 +23,8 @@
 	},
 	"settings": {
         "enable-sound": {
-            "name": "Enable Resume Sound",
-            "description": "Play a sound when the countdown finishes.",
+            "name": "Enable Sounds",
+            "description": "Play sounds during countdown (Resume/Ticking).",
             "type": "bool",
             "default": true
         },
