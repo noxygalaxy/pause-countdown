@@ -149,9 +149,11 @@ class $modify(MyPauseLayer, PauseLayer) {
         resetVariables();
         PauseLayer::onQuit(sender);
     }
-    void FLAlert_Clicked(FLAlertLayer* alert, bool buttonTwo) {
-        if (Mod::get()->getSettingValue<bool>("enabled") && buttonTwo) resetVariables();
-        PauseLayer::FLAlert_Clicked(alert, buttonTwo);
+    void tryQuit(cocos2d::CCObject* sender) {
+        if (!isCountingDown) PauseLayer::tryQuit(sender);
+    }
+    void onTryEdit(cocos2d::CCObject* sender) {
+        if (!isCountingDown) PauseLayer::onTryEdit(sender);
     }
 };
 
