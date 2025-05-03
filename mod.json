@@ -25,6 +25,13 @@
 		"url": "https://github.com/noxygalaxy/pause-countdown/issues"
 	},
 	"settings": {
+        "enabled": {
+            "name": "Enabled",
+            "type": "int",
+            "default": 3,
+            "min": 1,
+            "max": 10
+        },
         "countdown-seconds": {
             "name": "Countdown Duration",
             "description": "Number of seconds for the countdown (1-10).",
@@ -34,13 +41,13 @@
             "max": 10
         },
         "enable-sound": {
-            "name": "Enable Sounds",
+            "name": "SFX",
             "description": "Play sounds during the countdown and when the game resumes.",
             "type": "bool",
             "default": true
         },
         "enable-play-sound": {
-            "name": "Enable Resume Sound",
+            "name": "Resume SFX",
             "description": "Play sounds when the countdown finishes.",
             "type": "bool",
             "default": true
