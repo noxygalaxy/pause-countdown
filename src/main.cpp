@@ -86,7 +86,8 @@ class $modify(MyPauseLayer, PauseLayer) {
     }
 
     void updateCountdown(float dt) {
-        if (!isCountingDown || CCScene::get()->getChildByType<FLAlertLayer>(0)) return;
+        if (!isCountingDown || CCScene::get()->getChildByType<FLAlertLayer>(0) || CCScene::get()->getChildByType<GJGarageLayer>(0)) return;
+        this->setScale(0.f); // keep it "invisible"
         const auto fields = m_fields.self();
 
         countdownTime -= dt;
