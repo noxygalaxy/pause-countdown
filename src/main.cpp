@@ -7,14 +7,17 @@ float countdownTime = 0.0f;
 bool isCountingDown = false;
 int lastDisplayedTime = -1;
 
-#define ACTUALLY_RESUME_THE_GAME\
-    countdownTime = 0.0f;\
-    isCountingDown = false;\
-    lastDisplayedTime = -1;\
-    if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {\
-        MyPauseLayer::playSound(Mod::get()->getSettingValue<std::filesystem::path>("resume-sound").string(), true);\
-    }\
-    return PauseLayer::onResume(sender);
+void resetVariables() {
+    countdownTime = 0.0f;
+    isCountingDown = false;
+    lastDisplayedTime = -1;
+    const auto scene = CCScene::get();
+    if (const auto countdownLabel = scene->getChildByIDRecursive("countdown"_spr)) countdownLabel->removeMeAndCleanup();
+    if (const auto pauseLayer = scene->getChildByType<PauseLayer>(0)) {
+        MyPauseLayer* mpl = static_cast<MyPauseLayer*>(pauseLayer);
+        mpl->m_fields->countdownLabel = nullptr;
+    }
+}
 
 class $modify(MyPauseLayer, PauseLayer) {
     struct Fields {
@@ -54,7 +57,7 @@ class $modify(MyPauseLayer, PauseLayer) {
                 if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {
                     MyPauseLayer::playSound(Mod::get()->getSettingValue<std::filesystem::path>("resume-sound").string(), true);
                 }
-                return PauseLayer::onResume(sender);
+                return PauseLayer::onResume(nullptr);
             }
 		}
         const auto fields = m_fields.self();
@@ -70,7 +73,7 @@ class $modify(MyPauseLayer, PauseLayer) {
                 fields->countdownLabel = nullptr;
             }
 
-            this->setVisible(false);
+            this->setScale(0.f);
 
             fields->countdownLabel = CCLabelBMFont::create(std::to_string(countdownSeconds).c_str(), "bigFont.fnt");
             fields->countdownLabel->setPosition(CCDirector::sharedDirector()->getWinSize() / 2);
@@ -121,14 +124,40 @@ class $modify(MyPauseLayer, PauseLayer) {
             label->removeMeAndCleanup();
         }
     }
+
+    void onEdit(cocos2d::CCObject* sender) {
+        resetVariables();
+        PauseLayer::onEdit(sender);
+    }
+    void onNormalMode(cocos2d::CCObject* sender) {
+        resetVariables();
+        PauseLayer::onNormalMode(sender);
+    }
+    void onPracticeMode(cocos2d::CCObject* sender) {
+        resetVariables();
+        PauseLayer::onPracticeMode(sender);
+    }
+    void onRestart(cocos2d::CCObject* sender) {
+        resetVariables();
+        PauseLayer::onRestart(sender);
+    }
+    void onRestartFull(cocos2d::CCObject* sender) {
+        resetVariables();
+        PauseLayer::onRestartFull(sender);
+    }
+    void onQuit(cocos2d::CCObject* sender) {
+        resetVariables();
+        PauseLayer::onQuit(sender);
+    }
+    void FLAlert_Clicked(FLAlertLayer* alert, bool buttonTwo) {
+        if (Mod::get()->getSettingValue<bool>("enabled") && buttonTwo) resetVariables();
+        PauseLayer::FLAlert_Clicked(alert, buttonTwo);
+    }
 };
 
 class $modify(MyPlayLayer, PlayLayer) {
     void onQuit() {
-        if (const auto countdownLabel = CCScene::get()->getChildByIDRecursive("countdown"_spr)) countdownLabel->removeMeAndCleanup();
+        resetVariables();
         PlayLayer::onQuit();
-        countdownTime = 0.0f;
-        isCountingDown = false;
-        lastDisplayedTime = -1;
     }
 };
