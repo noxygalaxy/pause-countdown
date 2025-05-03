@@ -8,9 +8,9 @@ bool isCountingDown = false;
 int lastDisplayedTime = -1;
 
 #define ACTUALLY_RESUME_THE_GAME\
-    float countdownTime = 0.0f;\
-    bool isCountingDown = false;\
-    int lastDisplayedTime = -1;\
+    countdownTime = 0.0f;\
+    isCountingDown = false;\
+    lastDisplayedTime = -1;\
     if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {\
         MyPauseLayer::playSound(Mod::get()->getSettingValue<std::filesystem::path>("resume-sound").string(), true);\
     }\
@@ -45,7 +45,13 @@ class $modify(MyPauseLayer, PauseLayer) {
         if (!Mod::get()->getSettingValue<bool>("enabled")) return PauseLayer::onResume(sender);
 		if (CCNode* nodeSender = typeinfo_cast<CCNode*>(sender); sender && nodeSender) {
             if (nodeSender->getTag() == 5032025 && nodeSender->getID() == "recursion-prevention"_spr && nodeSender->getUserObject("recursion-prevention"_spr)) {
-                ACTUALLY_RESUME_THE_GAME
+                countdownTime = 0.0f;
+                isCountingDown = false;
+                lastDisplayedTime = -1;
+                if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {
+                    MyPauseLayer::playSound(Mod::get()->getSettingValue<std::filesystem::path>("resume-sound").string(), true);
+                }
+                return PauseLayer::onResume(sender);
             }
 		}
         const auto fields = m_fields.self();
@@ -118,8 +124,8 @@ class $modify(MyPlayLayer, PlayLayer) {
     void onQuit() {
         if (const auto countdownLabel = CCScene::get()->getChildByIDRecursive("countdown"_spr)) countdownLabel->removeMeAndCleanup();
         PlayLayer::onQuit();
-        float countdownTime = 0.0f;
-        bool isCountingDown = false;
-        int lastDisplayedTime = -1;
+        countdownTime = 0.0f;
+        isCountingDown = false;
+        lastDisplayedTime = -1;
     }
 };
