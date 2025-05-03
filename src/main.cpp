@@ -11,11 +11,10 @@ void resetVariables() {
     countdownTime = 0.0f;
     isCountingDown = false;
     lastDisplayedTime = -1;
-    const auto scene = CCScene::get();
-    if (CCNode*& countdownLabel = scene->getChildByIDRecursive("countdown"_spr)) {
-        countdownLabel->removeMeAndCleanup();
-        countdownLabel = nullptr;
-    }
+    CCScene* scene = CCScene::get();
+    if (!scene) return;
+    CCNode* countdownLabel = scene->getChildByIDRecursive("countdown"_spr);
+    if (countdownLabel) countdownLabel->removeMeAndCleanup();
 }
 
 class $modify(MyPauseLayer, PauseLayer) {
@@ -119,7 +118,7 @@ class $modify(MyPauseLayer, PauseLayer) {
 
     void customSetup() {
         PauseLayer::customSetup();
-        if (const auto label = CCScene::get()->getChildByID("countdown"_spr)) {
+        if (CCNode* label = CCScene::get()->getChildByID("countdown"_spr)) {
             label->removeMeAndCleanup();
         }
     }
