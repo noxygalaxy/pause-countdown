@@ -42,6 +42,9 @@ class $modify(MyPauseLayer, PauseLayer) {
     }
 
     void onResume(CCObject* sender) {
+        log::info("countdownTime: {}", countdownTime);
+        log::info("isCountingDown: {}", isCountingDown);
+        log::info("lastDisplayedTime: {}", lastDisplayedTime);
         if (!Mod::get()->getSettingValue<bool>("enabled")) return PauseLayer::onResume(sender);
 		if (CCNode* nodeSender = typeinfo_cast<CCNode*>(sender); sender && nodeSender) {
             if (nodeSender->getTag() == 5032025 && nodeSender->getID() == "recursion-prevention"_spr && nodeSender->getUserObject("recursion-prevention"_spr)) {
