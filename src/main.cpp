@@ -149,14 +149,6 @@ class $modify(MyPauseLayer, PauseLayer) {
         resetVariables();
         PauseLayer::onQuit(sender);
     }
-    void tryQuit(cocos2d::CCObject* sender) {
-        if (!isCountingDown) PauseLayer::tryQuit(sender);
-    }
-    #ifndef GEODE_IS_IOS
-    void onTryEdit(cocos2d::CCObject* sender) {
-        if (!isCountingDown) PauseLayer::onTryEdit(sender);
-    }
-    #endif
     void FLAlert_Clicked(FLAlertLayer* alert, bool buttonTwo) {
         if (Mod::get()->getSettingValue<bool>("enabled") && buttonTwo) resetVariables();
         PauseLayer::FLAlert_Clicked(alert, buttonTwo);
