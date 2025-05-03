@@ -20,6 +20,7 @@ class $modify(MyPauseLayer, PauseLayer) {
             #endif
         } else if (!std::filesystem::exists(soundName)) return;
 
+        auto system = FMODAudioEngine::get()->m_system;
         FMOD::Channel* channel;
 		FMOD::Sound* sound;
         
