@@ -80,7 +80,7 @@ class $modify(MyPauseLayer, PauseLayer) {
                 playLayer->resume();
                 playLayer->setTouchEnabled(true);
                 playLayer->setKeyboardEnabled(true);
-                #ifndef GEODE_IS_IOS
+                #ifndef __APPLE__
                 CCDirector::sharedDirector()->getTouchDispatcher()->setDispatchEvents(true);
                 #endif
                 this->removeFromParentAndCleanup(true);
