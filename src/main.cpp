@@ -59,7 +59,6 @@ class $modify(MyPauseLayer, PauseLayer) {
                 return PauseLayer::onResume(nullptr);
             }
 		}
-        const auto fields = m_fields.self();
         if (!isCountingDown) {
             const int countdownSeconds = Mod::get()->getSettingValue<int64_t>("countdown-seconds");
 
@@ -67,6 +66,7 @@ class $modify(MyPauseLayer, PauseLayer) {
             countdownTime = static_cast<float>(countdownSeconds);
             lastDisplayedTime = countdownSeconds + 1;
 
+            const auto fields = m_fields.self();
             if (fields->countdownLabel) {
                 fields->countdownLabel->removeMeAndCleanup();
                 fields->countdownLabel = nullptr;
@@ -86,8 +86,8 @@ class $modify(MyPauseLayer, PauseLayer) {
     }
 
     void updateCountdown(float dt) {
-        const auto fields = m_fields.self();
         if (!isCountingDown || CCScene::get()->getChildByType<FLAlertLayer>(0)) return;
+        const auto fields = m_fields.self();
 
         countdownTime -= dt;
 
