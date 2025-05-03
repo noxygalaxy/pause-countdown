@@ -2,6 +2,12 @@
 
 using namespace geode::prelude;
 
+#define ACTUALLY_RESUME_THE_GAME\
+    if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {\
+        MyPauseLayer::playSound(Mod::get()->getSettingValue<std::filesystem::path>("resume-sound").string(), true);\
+    }\
+    return PauseLayer::onResume(sender);
+
 class $modify(MyPauseLayer, PauseLayer) {
     struct Fields {
         CCLabelBMFont* countdownLabel = nullptr;
@@ -32,9 +38,9 @@ class $modify(MyPauseLayer, PauseLayer) {
     void onResume(CCObject* sender) {
         if (!Mod::get()->getSettingValue<bool>("enabled")) return PauseLayer::onResume(sender);
 		if (CCNode* nodeSender = typeinfo_cast<CCNode*>(sender); sender && nodeSender) {
-            if (nodeSender->getTag() == 5032025) return PauseLayer::onResume(sender);
-			if (nodeSender->getID() == "recursion-prevention"_spr) return PauseLayer::onResume(sender);
-			if (nodeSender->getUserObject("recursion-prevention"_spr)) return PauseLayer::onResume(sender);
+            if (nodeSender->getTag() == 5032025) ACTUALLY_RESUME_THE_GAME
+			if (nodeSender->getID() == "recursion-prevention"_spr) ACTUALLY_RESUME_THE_GAME
+			if (nodeSender->getUserObject("recursion-prevention"_spr)) ACTUALLY_RESUME_THE_GAME
 		}
         const auto fields = m_fields.self();
         if (!fields->isCountingDown) {
@@ -76,18 +82,11 @@ class $modify(MyPauseLayer, PauseLayer) {
             }
             this->unschedule(schedule_selector(MyPauseLayer::updateCountdown));
 
-            if (auto playLayer = PlayLayer::get()) {
-                CCNode* fakeSender = CCNode::create();
-                fakeSender->setTag(5032025);
-                fakeSender->setID("recursion-prevention"_spr);
-                fakeSender->setUserObject("recursion-prevention"_spr, CCBool::create(true));
-                PauseLayer::onResume(fakeSender);
-            }
-
-            if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {
-                // original sound: "playSound_01.ogg"
-                MyPauseLayer::playSound(Mod::get()->getSettingValue<std::filesystem::path>("resume-sound").string(), true);
-            }
+            CCNode* fakeSender = CCNode::create();
+            fakeSender->setTag(5032025);
+            fakeSender->setID("recursion-prevention"_spr);
+            fakeSender->setUserObject("recursion-prevention"_spr, CCBool::create(true));
+            PauseLayer::onResume(fakeSender);
         } else {
             int displayTime = static_cast<int>(ceil(fields->countdownTime));
             fields->countdownLabel->setString(std::to_string(displayTime).c_str());
