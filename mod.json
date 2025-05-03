@@ -54,8 +54,8 @@
 			"name": "Counter Sound File",
 			"type": "file",
 			"default": {
-				"win": "{gd_dir}/resources/sfx/counter003.ogg",
-				"mac": "{gd_dir}/Resources/sfx/counter003.ogg",
+				"win": "{gd_dir}/resources/counter003.ogg",
+				"mac": "{gd_dir}/Resources/counter003.ogg",
 				"ios": "",
 				"android": ""
 			},
@@ -70,8 +70,8 @@
 			"name": "Resume SFX File",
 			"type": "file",
 			"default": {
-				"win": "{gd_dir}/resources/sfx/playSound_01.ogg",
-				"mac": "{gd_dir}/Resources/sfx/playSound_01.ogg",
+				"win": "{gd_dir}/resources/playSound_01.ogg",
+				"mac": "{gd_dir}/Resources/playSound_01.ogg",
 				"ios": "",
 				"android": ""
 			},
