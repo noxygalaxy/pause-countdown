@@ -49,7 +49,7 @@
 				"win": "{gd_dir}/resources/sfx/counter003.ogg",
 				"mac": "{gd_dir}/Resources/sfx/counter003.ogg",
 				"ios": "",
-				"android": "file:///android_asset/sfx/counter003.ogg"
+				"android": ""
 			},
 			"filters": [
 				{
@@ -65,7 +65,7 @@
 				"win": "{gd_dir}/resources/sfx/playSound_01.ogg",
 				"mac": "{gd_dir}/Resources/sfx/playSound_01.ogg",
 				"ios": "",
-				"android": "file:///android_asset/sfx/playSound_01.ogg"
+				"android": ""
 			},
 			"filters": [
 				{

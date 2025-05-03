@@ -11,21 +11,14 @@ class $modify(MyPauseLayer, PauseLayer) {
     };
 
     void playSound(std::string soundName, const bool isResume) {
-        #ifdef GEODE_IS_ANDROID
-        if (soundName == "file:///android_asset/sfx/counter003.ogg" && !isResume) {
-            soundName = "counter003.ogg";
-        } else if (soundName == "file:///android_asset/sfx/playSound_01.ogg" && isResume) {
-            soundName = "playSound_01.ogg";
+        if (soundName.empty()) {
+            #ifdef GEODE_IS_MOBILE
+            if (isResume) soundName = "playSound_01.ogg"_spr;
+            else soundName = "counter003.ogg"_spr;
+            #else
+            return;
+            #endif
         } else if (!std::filesystem::exists(soundName)) return;
-        #elif defined(GEODE_IS_IOS)
-        if (soundName.empty() && !isResume)
-            soundName = "counter003.ogg";
-        } else if (soundName.empty() && isResume) {
-            soundName = "playSound_01.ogg";
-        } else if (!std::filesystem::exists(soundName)) return;
-        #else
-        if (!std::filesystem::exists(soundName)) return;
-        #endif
 
         FMOD::Channel* channel;
 		FMOD::Sound* sound;
