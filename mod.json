@@ -1,12 +1,14 @@
 {
-	"geode": "4.2.0",
+	"geode": "4.4.0",
 	"gd": {
 		"win": "2.2074",
-		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074",
+		"android": "2.2074"
 	},
 	"id": "noxygalaxy.pause_countdown",
 	"name": "Pause Countdown",
-	"version": "v1.4.2",
+	"version": "v1.5.0",
 	"developer": "noxygalaxy",
 	"description": "Adds a countdown when you unpause",
 	"tags": ["universal", "offline", "enhancement", "utility"],
@@ -22,10 +24,48 @@
 	"settings": {
         "enable-sound": {
             "name": "Enable Sounds",
-            "description": "Play sounds during countdown (Resume/Ticking).",
+            "description": "Play sounds during the countdown and when the game resumes.",
             "type": "bool",
             "default": true
         },
+        "enable-play-sound": {
+            "name": "Enable Resume Sound",
+            "description": "Play sounds when the countdown finishes.",
+            "type": "bool",
+            "default": true
+        },
+		"counter-sound": {
+			"name": "Counter",
+			"type": "file",
+			"default": {
+				"win": "{gd_dir}/resources/sfx/counter003.ogg",
+				"mac": "{gd_dir}/Resources/sfx/counter003.ogg",
+				"ios": "",
+				"android": "file:///android_asset/sfx/counter003.ogg"
+			},
+			"filters": [
+				{
+					"files": [ "*.mp3", "*.ogg", "*.oga", "*.wav", "*.flac" ],
+					"description": "Audio files"
+				}
+			]
+		},
+		"resume-sound": {
+			"name": "FiL/tH File",
+			"type": "file",
+			"default": {
+				"win": "{gd_dir}/resources/sfx/playSound_01.ogg",
+				"mac": "{gd_dir}/Resources/sfx/playSound_01.ogg",
+				"ios": "",
+				"android": "file:///android_asset/sfx/playSound_01.ogg"
+			},
+			"filters": [
+				{
+					"files": [ "*.mp3", "*.ogg", "*.oga", "*.wav", "*.flac" ],
+					"description": "Audio files"
+				}
+			]
+		},
         "countdown-seconds": {
             "name": "Countdown Duration",
             "description": "Number of seconds for the countdown (1-10).",

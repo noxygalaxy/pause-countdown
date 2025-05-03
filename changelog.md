@@ -1,3 +1,5 @@
+# 1.5.0
+- Fix most of the issues the mod had when it was first released.
 # 1.4.2
 Mod release!! <3
 
