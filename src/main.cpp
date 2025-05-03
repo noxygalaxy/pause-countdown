@@ -91,7 +91,7 @@ class $modify(MyPauseLayer, PauseLayer) {
                 this->removeFromParentAndCleanup(true);
             }
 
-            if (Mod::get()->getSettingValue<bool>("enable-sound" && Mod::get()->getSettingValue<bool>("enable-play-sound")) {
+            if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {
                 // original sound: "playSound_01.ogg"
                 MyPauseLayer::playSound(Mod::get()->getSettingValue<std::filesystem::path>("resume-sound").string(), true);
             }
