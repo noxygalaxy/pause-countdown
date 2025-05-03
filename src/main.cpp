@@ -32,7 +32,7 @@ class $modify(MyPauseLayer, PauseLayer) {
         
         system->createSound(soundName.c_str(), FMOD_DEFAULT, nullptr, &sound);
 		system->playSound(sound, nullptr, false, &channel);
-		channel->setVolume(volume);
+		channel->setVolume(Mod::get()->getSettingValue<int64_t>("volume") / 100.0f);
     }
 
     void onResume(CCObject* sender) {
