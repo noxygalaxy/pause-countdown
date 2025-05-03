@@ -12,6 +12,9 @@
 	"developer": "noxygalaxy",
 	"description": "Adds a countdown when you unpause",
 	"tags": ["universal", "offline", "enhancement", "utility"],
+	"resources": {
+		"files": ["resources/*.ogg"]
+	},
 	"links": {
 		"source": "https://github.com/noxygalaxy/pause-countdown",
 		"homepage": "https://noxy.netlify.app",
