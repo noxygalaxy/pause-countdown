@@ -7,6 +7,15 @@ float countdownTime = 0.0f;
 bool isCountingDown = false;
 int lastDisplayedTime = -1;
 
+void resetVariables() {
+    countdownTime = 0.0f;
+    isCountingDown = false;
+    lastDisplayedTime = -1;
+    const auto scene = CCScene::get();
+    if (const auto countdownLabel = scene->getChildByIDRecursive("countdown"_spr)) countdownLabel->removeMeAndCleanup();
+    setLabelNullptr();
+}
+
 class $modify(MyPauseLayer, PauseLayer) {
     struct Fields {
         CCLabelBMFont* countdownLabel = nullptr;
@@ -150,12 +159,7 @@ class $modify(MyPlayLayer, PlayLayer) {
     }
 };
 
-void resetVariables() {
-    countdownTime = 0.0f;
-    isCountingDown = false;
-    lastDisplayedTime = -1;
-    const auto scene = CCScene::get();
-    if (const auto countdownLabel = scene->getChildByIDRecursive("countdown"_spr)) countdownLabel->removeMeAndCleanup();
+void setLabelNullptr() {
     if (const auto pauseLayer = scene->getChildByType<PauseLayer>(0)) {
         MyPauseLayer* mpl = static_cast<MyPauseLayer*>(pauseLayer);
         mpl->m_fields->countdownLabel = nullptr;
