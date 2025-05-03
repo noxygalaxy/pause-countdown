@@ -63,11 +63,11 @@ class $modify(MyPauseLayer, PauseLayer) {
 
             this->setVisible(false);
 
-            countdownLabel = CCLabelBMFont::create(std::to_string(countdownSeconds).c_str(), "bigFont.fnt");
-            countdownLabel->setPosition(CCDirector::sharedDirector()->getWinSize() / 2);
-            countdownLabel->setScale(2.0f);
-            countdownLabel->setZOrder(100);
-            countdownLabel->setID("countdown"_spr);
+            fields->countdownLabel = CCLabelBMFont::create(std::to_string(countdownSeconds).c_str(), "bigFont.fnt");
+            fields->countdownLabel->setPosition(CCDirector::sharedDirector()->getWinSize() / 2);
+            fields->countdownLabel->setScale(2.0f);
+            fields->countdownLabel->setZOrder(100);
+            fields->countdownLabel->setID("countdown"_spr);
             this->getParent()->addChild(fields->countdownLabel);
 
             this->schedule(schedule_selector(MyPauseLayer::updateCountdown), 0.1f);
@@ -95,7 +95,7 @@ class $modify(MyPauseLayer, PauseLayer) {
             PauseLayer::onResume(fakeSender);
         } else {
             int displayTime = static_cast<int>(ceil(countdownTime));
-            countdownLabel->setString(std::to_string(displayTime).c_str());
+            fields->countdownLabel->setString(std::to_string(displayTime).c_str());
 
             if (Mod::get()->getSettingValue<bool>("enable-sound") && displayTime != lastDisplayedTime) {
                 log::info("Triggering countdown sound for: {}", displayTime);
@@ -109,7 +109,7 @@ class $modify(MyPauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
         if (const auto label = CCScene::get()->getChildByID("countdown"_spr)) {
-            parent->removeChildByID("countdown"_spr);
+            label->removeMeAndCleanup();
         }
     }
 };
