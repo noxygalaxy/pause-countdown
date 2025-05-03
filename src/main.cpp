@@ -1,4 +1,5 @@
 #include <Geode/modify/PauseLayer.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
 
@@ -17,6 +18,7 @@ class $modify(MyPauseLayer, PauseLayer) {
     };
 
     void playSound(std::string soundName, const bool isResume) {
+        if (!Mod::get()->getSettingValue<bool>("enabled")) return;
         if (soundName.empty()) {
             #ifdef GEODE_IS_MOBILE
             if (isResume) soundName = "playSound_01.ogg"_spr;
@@ -51,7 +53,7 @@ class $modify(MyPauseLayer, PauseLayer) {
             fields->lastDisplayedTime = countdownSeconds + 1;
 
             if (fields->countdownLabel) {
-                fields->countdownLabel->removeFromParentAndCleanup(true);
+                fields->countdownLabel->removeMeAndCleanup();
                 fields->countdownLabel = nullptr;
             }
 
@@ -77,7 +79,7 @@ class $modify(MyPauseLayer, PauseLayer) {
         if (fields->countdownTime <= 0.0f) {
             fields->isCountingDown = false;
             if (fields->countdownLabel) {
-                fields->countdownLabel->removeFromParentAndCleanup(true);
+                fields->countdownLabel->removeMeAndCleanup();
                 fields->countdownLabel = nullptr;
             }
             this->unschedule(schedule_selector(MyPauseLayer::updateCountdown));
@@ -100,20 +102,17 @@ class $modify(MyPauseLayer, PauseLayer) {
         }
     }
 
-    void onExit() {
-        const auto fields = m_fields.self();
-        if (fields->countdownLabel) {
-            fields->countdownLabel->removeFromParentAndCleanup(true);
-            fields->countdownLabel = nullptr;
-        }
-        this->unschedule(schedule_selector(MyPauseLayer::updateCountdown));
-        PauseLayer::onExit();
-    }
-
     void customSetup() {
         PauseLayer::customSetup();
         if (const auto parent = this->getParent(); parent && parent->getChildByID("countdown"_spr)) {
             parent->removeChildByID("countdown"_spr);
         }
+    }
+};
+
+class $modify(MyPlayLayer, PlayLayer) {
+    void onQuit() {
+        if (const auto countdownLabel = CCScene::get()->getChildByIDRecursive("countdown"_spr)) countdownLabel->removeMeAndCleanup();
+        PlayLayer::onQuit();
     }
 };

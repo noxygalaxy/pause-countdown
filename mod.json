@@ -27,10 +27,8 @@
 	"settings": {
         "enabled": {
             "name": "Enabled",
-            "type": "int",
-            "default": 3,
-            "min": 1,
-            "max": 10
+            "type": "bool",
+            "default": true
         },
         "countdown-seconds": {
             "name": "Countdown Duration",
