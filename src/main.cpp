@@ -87,7 +87,7 @@ class $modify(MyPauseLayer, PauseLayer) {
 
     void updateCountdown(float dt) {
         const auto fields = m_fields.self();
-        if (!isCountingDown) return;
+        if (!isCountingDown || CCScene::get()->getChildByType<FLAlertLayer>(0)) return;
 
         countdownTime -= dt;
 
@@ -152,8 +152,14 @@ class $modify(MyPauseLayer, PauseLayer) {
     void tryQuit(cocos2d::CCObject* sender) {
         if (!isCountingDown) PauseLayer::tryQuit(sender);
     }
+    #ifndef GEODE_IS_IOS
     void onTryEdit(cocos2d::CCObject* sender) {
         if (!isCountingDown) PauseLayer::onTryEdit(sender);
+    }
+    #endif
+    void FLAlert_Clicked(FLAlertLayer* alert, bool buttonTwo) {
+        if (Mod::get()->getSettingValue<bool>("enabled") && buttonTwo) resetVariables();
+        PauseLayer::FLAlert_Clicked(alert, buttonTwo);
     }
 };
 
@@ -161,5 +167,9 @@ class $modify(MyPlayLayer, PlayLayer) {
     void onQuit() {
         resetVariables();
         PlayLayer::onQuit();
+    }
+    void resume() {
+        resetVariables();
+        PlayLayer::resume();
     }
 };
