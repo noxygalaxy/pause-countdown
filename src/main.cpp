@@ -30,6 +30,12 @@ class $modify(MyPauseLayer, PauseLayer) {
     }
 
     void onResume(CCObject* sender) {
+        if (!Mod::get()->getSettingValue<bool>("enabled")) return PauseLayer::onResume(sender);
+		if (CCNode* nodeSender = typeinfo_cast<CCNode*>(sender); sender && nodeSender) {
+            if (nodeSender->getTag() == 5032025) return PauseLayer::onResume(sender);
+			if (nodeSender->getID() == "recursion-prevention"_spr) return PauseLayer::onResume(sender);
+			if (nodeSender->getUserObject("recursion-prevention"_spr)) return PauseLayer::onResume(sender);
+		}
         const auto fields = m_fields.self();
         if (!fields->isCountingDown) {
             int countdownSeconds = Mod::get()->getSettingValue<int64_t>("countdown-seconds");
@@ -53,12 +59,6 @@ class $modify(MyPauseLayer, PauseLayer) {
             this->getParent()->addChild(fields->countdownLabel);
 
             this->schedule(schedule_selector(MyPauseLayer::updateCountdown), 0.1f);
-
-            if (auto playLayer = PlayLayer::get()) {
-                playLayer->setVisible(true);
-                playLayer->setTouchEnabled(true);
-                playLayer->setKeyboardEnabled(true);
-            }
         }
     }
 
@@ -77,13 +77,11 @@ class $modify(MyPauseLayer, PauseLayer) {
             this->unschedule(schedule_selector(MyPauseLayer::updateCountdown));
 
             if (auto playLayer = PlayLayer::get()) {
-                playLayer->resume();
-                playLayer->setTouchEnabled(true);
-                playLayer->setKeyboardEnabled(true);
-                #ifndef __APPLE__
-                CCDirector::sharedDirector()->getTouchDispatcher()->setDispatchEvents(true);
-                #endif
-                this->removeFromParentAndCleanup(true);
+                CCNode* fakeSender = CCNode::create();
+                fakeSender->setTag(5032025);
+                fakeSender->setID("recursion-prevention"_spr);
+                fakeSender->setUserObject("recursion-prevention"_spr, CCBool::create(true));
+                PauseLayer::onResume(fakeSender);
             }
 
             if (Mod::get()->getSettingValue<bool>("enable-sound") && Mod::get()->getSettingValue<bool>("enable-play-sound")) {
