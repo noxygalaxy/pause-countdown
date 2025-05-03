@@ -16,7 +16,6 @@ void resetVariables() {
     CCNode* countdownLabel = scene->getChildByIDRecursive("countdown"_spr);
     if (!countdownLabel) return;
     countdownLabel->removeMeAndCleanup();
-    countdownLabel = nullptr;
 }
 
 class $modify(MyPauseLayer, PauseLayer) {
