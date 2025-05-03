@@ -43,7 +43,7 @@
             "default": true
         },
 		"counter-sound": {
-			"name": "Counter",
+			"name": "Counter Sound File",
 			"type": "file",
 			"default": {
 				"win": "{gd_dir}/resources/sfx/counter003.ogg",
@@ -59,7 +59,7 @@
 			]
 		},
 		"resume-sound": {
-			"name": "FiL/tH File",
+			"name": "Resume SFX File",
 			"type": "file",
 			"default": {
 				"win": "{gd_dir}/resources/sfx/playSound_01.ogg",
