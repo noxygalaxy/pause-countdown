@@ -1,28 +1,32 @@
 {
-	"geode": "4.2.0",
+	"geode": "4.4.0",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
+        "win": "2.2074",
+        "mac": "2.2074",
+        "ios": "2.2074",
+        "android": "2.2074"
 	},
 	"id": "noxygalaxy.pause_countdown",
 	"name": "Pause Countdown",
-	"version": "v1.4.2",
+	"version": "v1.5.0",
 	"developer": "noxygalaxy",
 	"description": "Adds a countdown when you unpause",
 	"tags": ["universal", "offline", "enhancement", "utility"],
+	"resources": {
+        "files": ["resources/*.ogg"]
+	},
 	"links": {
-		"source": "https://github.com/noxygalaxy/pause-countdown",
-		"homepage": "https://noxy.netlify.app",
-		"community": "https://discord.gg/yvvJW2z9zB"
+        "source": "https://github.com/noxygalaxy/pause-countdown",
+        "homepage": "https://noxy.netlify.app",
+        "community": "https://discord.gg/yvvJW2z9zB"
 	},
 	"issues": {
-		"info": "Send your feature requests or bug reports here.",
-		"url": "https://github.com/noxygalaxy/pause-countdown/issues"
+        "info": "Send your feature requests or bug reports here.",
+        "url": "https://github.com/noxygalaxy/pause-countdown/issues"
 	},
 	"settings": {
-        "enable-sound": {
-            "name": "Enable Sounds",
-            "description": "Play sounds during countdown (Resume/Ticking).",
+        "enabled": {
+            "name": "Enabled",
             "type": "bool",
             "default": true
         },
@@ -33,6 +37,67 @@
             "default": 3,
             "min": 1,
             "max": 10
+        },
+        "enable-sound": {
+            "name": "SFX",
+            "description": "Play sounds during the countdown and when the game resumes.",
+            "type": "bool",
+            "default": true
+        },
+        "enable-play-sound": {
+            "name": "Resume SFX",
+            "description": "Play sounds when the countdown finishes.",
+            "type": "bool",
+            "default": true
+        },
+        "counter-sound": {
+            "name": "Counter Sound File",
+            "type": "file",
+            "default": {
+                "win": "{gd_dir}/resources/counter003.ogg",
+                "mac": "{gd_dir}/Resources/counter003.ogg",
+                "ios": "",
+                "android": ""
+            },
+            "filters": [
+                {
+                    "files": [ "*.mp3", "*.ogg", "*.oga", "*.wav", "*.flac" ],
+                    "description": "Audio files"
+                }
+            ]
+        },
+        "resume-sound": {
+            "name": "Resume SFX File",
+            "type": "file",
+            "default": {
+                "win": "{gd_dir}/resources/playSound_01.ogg",
+                "mac": "{gd_dir}/Resources/playSound_01.ogg",
+                "ios": "",
+                "android": ""
+            },
+            "filters": [
+                {
+                    "files": [ "*.mp3", "*.ogg", "*.oga", "*.wav", "*.flac" ],
+                    "description": "Audio files"
+                }
+            ]
+        },
+        "volume": {
+        "name": "Volume (%)",
+            "description": "Set the volume of the SFX as a percentage.",
+            "type": "int",
+            "default": 25,
+            "min": 0,
+            "max": 100,
+            "control": {
+                "input": true,
+                "slider": true,
+                "arrows": true,
+                "big-arrows": true,
+                "arrow-step": 1,
+                "big-arrow-step": 5,
+                "slider-step": 1
+            }
         }
     }
 }
