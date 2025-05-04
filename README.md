@@ -24,4 +24,8 @@
 ## Support  
 If you encounter any issues, please report them on the [Issues](https://github.com/noxygalaxy/pause-countdown/issues) page. You can also join our **Discord** for help, discussions and to see my new mod releases <3  
 
+## Credits
+- @noxygalaxy - owner of the mod
+- @RayDeeUx - made a lot of changes to make this mod better, thanks <3
+
 <a href="https://discord.gg/yvvJW2z9zB"><img src="https://dcbadge.limes.pink/api/server/yvvJW2z9zB"></img></a>  
